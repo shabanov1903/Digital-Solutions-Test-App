@@ -1,0 +1,13 @@
+.main-header {
+    text-align: center;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+.button-weight {
+    width: 200px;
+}
+
+.item {
+    cursor: pointer;
+}
