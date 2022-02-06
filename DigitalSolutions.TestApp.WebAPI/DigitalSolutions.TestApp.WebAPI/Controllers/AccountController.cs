@@ -38,8 +38,8 @@ namespace DigitalSolutions.TestApp.WebAPI.Controllers
         [Route("add")]
         public async Task<IActionResult> AddAccount([FromBody] AccountDTO account)
         {
-            await _dataController.AddAccount(_mapper.Map<AccountContext>(account));
-            return Ok();
+            var result = await _dataController.AddAccount(_mapper.Map<AccountContext>(account));
+            return Ok(new OperationDTO(result));
         }
 
         [HttpPost]

@@ -5,6 +5,8 @@ using DigitalSolutions.TestApp.WebAPI.DataBase;
 // Create builder
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors();
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();

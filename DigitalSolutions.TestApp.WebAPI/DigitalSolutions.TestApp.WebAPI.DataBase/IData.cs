@@ -11,7 +11,7 @@ namespace DigitalSolutions.TestApp.WebAPI.DataBase
     {
         public Task<List<AccountContext>> GetAccountList(AccountFilter filter);
         public Task<AccountContext> GetAccountById(int Id);
-        public Task AddAccount(AccountContext context);
+        public Task<bool> AddAccount(AccountContext context);
         public Task ChangeAccount(AccountContext context);
     }
 }

@@ -22,10 +22,16 @@ namespace DigitalSolutions.TestApp.WebAPI.DataBase
             if (!File.Exists(_path)) File.AppendAllText(_path, GetInitialCsvString(accountContextType));
         }
 
-        public async Task AddAccount(AccountContext context)
+        public async Task<bool> AddAccount(AccountContext context)
         {
+            var checkAccountNumber = await GetAccountById(context.accountNumber);
+            if (checkAccountNumber.accountNumber == context.accountNumber)
+            {
+                return false;
+            }
             context.createTime = DateTime.Now;
             context.changeTime = DateTime.Now;
+            context.accountStatus = AccountStatus.New;
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 HasHeaderRecord = false
@@ -39,6 +45,7 @@ namespace DigitalSolutions.TestApp.WebAPI.DataBase
                     csv.NextRecord();
                 });
             }
+            return true;
         }
 
         public async Task ChangeAccount(AccountContext context)
@@ -70,7 +77,14 @@ namespace DigitalSolutions.TestApp.WebAPI.DataBase
                     resultList.Add(record);
                 }
             }
-            return (from t in resultList where t.accountNumber == Id select t).First();
+            try
+            {
+                return (from t in resultList where t.accountNumber == Id select t).First();
+            }
+            catch
+            {
+                return new AccountContext();
+            }
         }
 
         public async Task<List<AccountContext>> GetAccountList(AccountFilter filter)
